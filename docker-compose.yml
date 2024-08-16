@@ -1,0 +1,48 @@
+
+services:
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - /var/lib/docker-data/prometheus:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - 9090:9090
+    networks:
+      - default
+      - monitoring
+
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - /var/lib/docker-data/grafana:/var/lib/grafana
+    ports:
+      - 3000:3000
+    networks:
+      - default
+      - monitoring
+    depends_on:
+      - prometheus
+
+networks:
+  default:
+  monitoring:
+    external: true
+
+volumes:
+  prometheus_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /var/lib/docker-data/prometheus
+  grafana_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /var/lib/docker-data/grafana
