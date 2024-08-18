@@ -1,11 +1,21 @@
-   global:
-     scrape_interval: 15s
+global:
+  scrape_interval: 15s
 
-   scrape_configs:
-     - job_name: 'rtsp_to_redis'
-       static_configs:
-         - targets: ['rtsp_to_redis:8001']
+scrape_configs:
+  - job_name: "rtsp_to_redis"
+    static_configs:
+      - targets: ["rtsp_to_redis:8001"]
+    dns_sd_configs:
+      - names:
+        - "tasks.rtsp_to_redis"
+        type: 'A'
+        port: 8001
 
-     - job_name: 'stream_processor'
-       static_configs:
-         - targets: ['stream_processor:8002']
+  - job_name: "stream_processor"
+    static_configs:
+      - targets: ["stream_processor:8002"]
+    dns_sd_configs:
+      - names:
+        - "tasks.stream_processor"
+        type: 'A'
+        port: 8002
