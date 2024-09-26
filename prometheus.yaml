@@ -11,11 +11,11 @@ scrape_configs:
         type: 'A'
         port: 8001
 
-  - job_name: "stream_processor"
+  - job_name: "video_analyzer"
     static_configs:
-      - targets: ["stream_processor:8002"]
+      - targets: ["video_analyzer:8002"]
     dns_sd_configs:
       - names:
-        - "tasks.stream_processor"
+        - "tasks.video_analyzer"
         type: 'A'
         port: 8002
